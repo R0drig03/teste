@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn} from "typeorm";
 import { ForeignKeyMetadata } from "typeorm/metadata/ForeignKeyMetadata";
 import { EstadoEntity } from "./estado.entity";
  
@@ -11,8 +11,9 @@ export class CidadeEntity {
     @Column({ nullable: true, length: 255 })
     nome: string;
     
-    @ManyToOne(() => EstadoEntity, estado => estado.id) // Definindo a relação
-    fk_estado: EstadoEntity; // Adicionando a propriedade para a relação
+    @ManyToOne(() => EstadoEntity, (estado) => estado.cidades) 
+    @JoinColumn({ name: 'fk_estado' }) //JOINCOLUMN SERVE PARA RENOMEAR OS ATRIBUTOS DE CHAVE ESTRÂNGEIRA
+    fk_estado: EstadoEntity;
 
     @CreateDateColumn()
     criado_em: Date; //PREENCHIDO AUTOMÁTICAMENTE
